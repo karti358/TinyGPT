@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flash-gpt"
+version = "0.1.0"
+description = "TinyGPT with custom JAX Pallas Flash Attention"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+  "jax",
+  "flax",
+  "optax",
+  "grain",
+  "tiktoken",
+  "ml_collections",
+  "orbax-checkpoint",
+  "einops",
+  "numpy",
+  "tqdm",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+cpu = ["jax"]
+cuda = ["jax[cuda12]"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.uv]
+conflicts = [[{ extra = "cpu" }, { extra = "cuda" }]]
